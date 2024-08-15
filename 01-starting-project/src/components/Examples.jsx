@@ -3,7 +3,7 @@ import { EXAMPLES } from "../data.js";
 
 import Section from "./Section.jsx";
 
-import Tabs from "./TabButton.jsx";
+import Tabs from "./Tabs.jsx";
 import TabButton from "./TabButton";
 
 export default function Examples() {
