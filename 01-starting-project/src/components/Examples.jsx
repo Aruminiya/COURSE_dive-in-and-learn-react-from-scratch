@@ -17,34 +17,38 @@ export default function Examples() {
 
   return (
     <Section title="Examples" id="examples">
-      <Tabs buttons={
-        <>
-        <TabButton
-          isSelected={selectedTopic === "components"}
-          onClick={() => handSelect("components")}
-        >
-          Components
-        </TabButton>
-        <TabButton
-          isSelected={selectedTopic === "jsx"}
-          onClick={() => handSelect("jsx")}
-        >
-          JSX
-        </TabButton>
-        <TabButton
-          isSelected={selectedTopic === "props"}
-          onClick={() => handSelect("props")}
-        >
-          Props
-        </TabButton>
-        <TabButton
-          isSelected={selectedTopic === "state"}
-          onClick={() => handSelect("state")}
-        >
-          State
-        </TabButton>
-        </>
-      }>
+      <Tabs
+        // buttonsContainer={Section} 像這樣就是使用 組件 Section
+        ButtonsContainer="menu"
+        buttons={
+          <>
+          <TabButton
+            isSelected={selectedTopic === "components"}
+            onClick={() => handSelect("components")}
+          >
+            Components
+          </TabButton>
+          <TabButton
+            isSelected={selectedTopic === "jsx"}
+            onClick={() => handSelect("jsx")}
+          >
+            JSX
+          </TabButton>
+          <TabButton
+            isSelected={selectedTopic === "props"}
+            onClick={() => handSelect("props")}
+          >
+            Props
+          </TabButton>
+          <TabButton
+            isSelected={selectedTopic === "state"}
+            onClick={() => handSelect("state")}
+          >
+            State
+          </TabButton>
+          </>
+        }
+      >
 
         {/* && 如果前面是 true 就會輸出後面的 */}
         {!selectedTopic && <p>Please select a topic</p>}
