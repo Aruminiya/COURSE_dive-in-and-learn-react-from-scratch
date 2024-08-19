@@ -1,4 +1,3 @@
-import { useState } from "react"
 
 const initalGameBoard = [
   [null, null, null],
@@ -6,17 +5,14 @@ const initalGameBoard = [
   [null, null, null]
 ]
 
-export default function GameBoard({ onSelectSquare, activePlayerSymbol }) {
-  const [gmaeBoard, setGameBoard]=useState(initalGameBoard)
+export default function GameBoard({ onSelectSquare, turns }) {
+  let gmaeBoard = initalGameBoard;
 
-  function handleSelectSquare(rowIndex, colIndex) {
-    setGameBoard((prevGameBoaed) => {
-      const updateBoard = [...prevGameBoaed.map(innerArray => [...innerArray])]; // 深拷貝 因為直接改職會影響到原始值
-      updateBoard[rowIndex][colIndex] = activePlayerSymbol;
-      return updateBoard
-    });
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
 
-    onSelectSquare();
+    gmaeBoard[row][col] = player;
   }
 
   return(
@@ -26,7 +22,7 @@ export default function GameBoard({ onSelectSquare, activePlayerSymbol }) {
           <ol>
             {row.map((playerSymbol, colIndex) => 
               <li key={colIndex}>
-                <button onClick={() => handleSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
+                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
               </li>)
             }
           </ol>
