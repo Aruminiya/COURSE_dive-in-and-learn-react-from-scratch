@@ -30,6 +30,19 @@ function App() {
 
   let gmaeBoard = [...initalGameBoard.map(array => [...array])];
 
+  const [players, setPlayers] = useState({
+    X: 'Player 1',
+    O: 'Player 2'
+  })
+
+  function handelPlayerNameChange(symbol, newName) {
+    setPlayers(prevPlayers => {
+      return {
+        ...prevPlayers, [symbol]:newName
+      }
+    });
+  }
+
   for (const turn of gameTurns) {
     const { square, player } = turn;
     const { row, col } = square;
@@ -45,7 +58,7 @@ function App() {
     const thirdSquareSymbol = gmaeBoard[combination[2].row][combination[2].column]
 
     if (firstSquareSymbol && firstSquareSymbol===secondSquareSymbol && firstSquareSymbol===thirdSquareSymbol) {
-      winner = firstSquareSymbol
+      winner = players[firstSquareSymbol];
     }
   }
 
@@ -69,8 +82,18 @@ function App() {
    <main>
     <div id="game-container">
       <ol id="players" className="highlight-player">
-        <Player name="Player 1" symbol="X" isActive={activePlayer === "X"}/>
-        <Player name="Player 2" symbol="O" isActive={activePlayer === "O"}/>
+        <Player
+          initialName="Player 1"
+          symbol="X"
+          isActive={activePlayer === "X"}
+          onChangeName={handelPlayerNameChange}
+        />
+        <Player
+          initialName="Player 2"
+          symbol="O"
+          isActive={activePlayer === "O"}
+          onChangeName={handelPlayerNameChange}
+        />
       </ol>
       {(winner || hasDraw) && <GameOver winner={winner} onRestart={handelRestart}/>}
       <GameBoard onSelectSquare={handleSelectSquare} board={gmaeBoard}/>
