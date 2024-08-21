@@ -1,5 +1,7 @@
 import { useState, useRef } from "react"
 
+import ResultModal from "./ResultModal.jsx";
+
 export default function TimerChallenge({title, targetTime}) {
   const timer = useRef(); 
 
@@ -9,8 +11,9 @@ export default function TimerChallenge({title, targetTime}) {
   function handleStart() {
     timer.current = setTimeout(() => {
       setTimerExpired(true);
+      setTimerStarted(false);
     }, targetTime * 1000);
-
+    
     setTimerStarted(true);
   };
 
@@ -20,23 +23,27 @@ export default function TimerChallenge({title, targetTime}) {
   }
 
   return(
-    <section className="challenge">
-      <h2>{title}</h2>
-      {timerExpired && <p>You lost!</p>}
-      <p className="challenge-time">
-        {targetTime} second{targetTime > 1 ? 's' :''}
-        {/* targetTime > 1 ? 's' :''
-          純粹英文文法問題 1 秒是單數， 2 秒複數 要加 s
-        */}
-      </p>
-      <p>
-        <button onClick={timerStarted ? handleStop : handleStart}>
-          {timerStarted ? 'Stop' : 'Start'} Challenge
-        </button>
-      </p>
-      <p className={timerStarted ? 'active' : ''}>
-        {timerStarted ? 'Time is running...' : 'Timer inactive'}
-      </p>
-    </section>
+    <>
+      {timerExpired && <ResultModal targetTime={targetTime} />}
+      <section className="challenge">
+        <h2>{title}</h2>
+        {timerExpired && <p>You lost!</p>}
+        <p className="challenge-time">
+          {targetTime} second{targetTime > 1 ? 's' :''}
+          {/* targetTime > 1 ? 's' :''
+            純粹英文文法問題 1 秒是單數， 2 秒複數 要加 s
+          */}
+        </p>
+        <p>
+          <button onClick={timerStarted ? handleStop : handleStart}>
+            {timerStarted ? 'Stop' : 'Start'} Challenge
+          </button>
+        </p>
+        <p className={timerStarted ? 'active' : ''}>
+          {timerStarted ? 'Time is running...' : 'Timer inactive'}
+        </p>
+      </section>
+    </>
+
   )
 }
