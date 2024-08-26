@@ -1,13 +1,16 @@
 import { useState } from "react";
 
 export default function NewTask({ onAdd }) {
-  const [enteredTask, setEnteredTask] = useState();
+  const [enteredTask, setEnteredTask] = useState("");
 
   function handleChange(event) {
     setEnteredTask(event.target.value)
   };
 
   function handelClick() {
+    if (enteredTask.trim() === '') {
+      return;
+    }
     onAdd(enteredTask);
     setEnteredTask("");
   };
@@ -17,7 +20,7 @@ export default function NewTask({ onAdd }) {
       <input
         type="text"
         className="w-64 px-2 py-1 rounded-sm bg-stone-200"
-        onChange={handleChange}
+        onChange={(event) => handleChange(event)}
         value={enteredTask}
       />
       <button 
