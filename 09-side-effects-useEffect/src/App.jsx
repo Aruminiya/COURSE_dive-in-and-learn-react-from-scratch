@@ -1,15 +1,31 @@
-import { useRef, useState } from 'react';
-
+import { useRef, useState, useEffect } from 'react';
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
 import Modal from './components/Modal.jsx';
 import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
+import { sortPlacesByDistance } from './loc.js';
 
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
+  const [acailablePlaces, setAcailablePlaces] = useState([]);
   const [pickedPlaces, setPickedPlaces] = useState([]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortPlaces = sortPlacesByDistance(
+        AVAILABLE_PLACES,
+        position.coords.latitude,
+        position.coords.longitude
+      );
+
+      setAcailablePlaces(sortPlaces);
+    }); // 取得用戶位置
+    // navigator 是一個全域對象，它提供了與瀏覽器相關的資訊和操作介面。在前端開發中，我們通常會使用 navigator 物件來獲取使用者瀏覽器的相關信息，例如瀏覽器的名稱、版本、語言設定、裝置類型、位置等等。    
+  }, []);
+
+
 
   function handleStartRemovePlace(id) {
     modal.current.open();
@@ -64,6 +80,7 @@ function App() {
         <Places
           title="Available Places"
           places={AVAILABLE_PLACES}
+          fallbackText='Select places by distance...'
           onSelectPlace={handleSelectPlace}
         />
       </main>
