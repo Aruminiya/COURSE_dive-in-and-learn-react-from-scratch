@@ -1,12 +1,10 @@
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useState } from "react";
 
 import QUESTIONS from "../questions";
 import quizCompleteImg from "../assets/quiz-complete.png";
-
-import QuestionTimer from "./QuestionTimer.jsx";
+import Question from "./Question";
 
 export default function Quiz() {
-  const shuffledAnswers = useRef(0);
   const [answerState, setAnswerState] = useState('');
   const [userAnswers, setUserAnswers] = useState([]);
 
@@ -43,44 +41,25 @@ export default function Quiz() {
       </div>
     );
   };
-
-  if (!shuffledAnswers.current) {
-    shuffledAnswers.current = [...QUESTIONS[activeQuestionIdex].answers];
-    shuffledAnswers.current.sort(() => Math.random() - 0.5 );
-  };
-
   
   return (
     <div id="quiz">
       <div id="question">
-        <QuestionTimer key={activeQuestionIdex} timeout={10000} onTimeout={handleSkipAnswer}/>
+        <Question
+          key={activeQuestionIdex}
+          questionText={QUESTIONS[activeQuestionIdex].text}
+          answers={QUESTIONS[activeQuestionIdex].answers}
+          answerState={answerState}
+          selectedAnswer={userAnswers[userAnswers.length - 1]}
+          onSelectAnswer={handelSelectAnswer}
+          onSkipAnswer={handleSkipAnswer}
+        />
         {/*
           在 React 中，`key` 屬性主要用於列表中的元素，
           以幫助 React 識別哪些項目發生了變化、被添加或被移除。
           然而，`key` 屬性也可以用於強制重新渲染組件，即使該組件不是列表的一部分。
           當 `key` 屬性改變時，React 會銷毀舊的組件並創建一個新的組件。
         */}
-        <h2>{QUESTIONS[activeQuestionIdex].text}</h2>
-        <ul id="answers">
-        {shuffledAnswers.current.map(answer => {
-          const isSelected = userAnswers[userAnswers.length - 1] === answer
-          let cssClass = '';
-
-          if (answerState === 'answered' && isSelected) {
-            cssClass = 'selected';
-          };
-
-          if ((answerState === 'correct' || answerState === 'wrong') && isSelected ) {
-            cssClass = answerState;
-          };
-
-          return <li key={answer} className="answer">
-            <button onClick={() => handelSelectAnswer(answer)} className={cssClass}>
-              {answer}
-            </button>
-          </li>;
-        })}
-        </ul>
       </div>      
     </div>
   );
