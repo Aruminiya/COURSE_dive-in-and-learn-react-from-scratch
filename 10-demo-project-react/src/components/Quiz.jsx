@@ -5,31 +5,17 @@ import quizCompleteImg from "../assets/quiz-complete.png";
 import Question from "./Question";
 
 export default function Quiz() {
-  const [answerState, setAnswerState] = useState('');
   const [userAnswers, setUserAnswers] = useState([]);
 
-  const activeQuestionIdex = answerState === '' ? userAnswers.length : userAnswers.length - 1;
+  const activeQuestionIdex = userAnswers.length;
 
   const quizIsComplete = activeQuestionIdex === QUESTIONS.length;
   
   const handelSelectAnswer = useCallback((selectedAnswer) => {
-    setAnswerState('answered');
     setUserAnswers((prevUserAnswers) => {
       return [...prevUserAnswers, selectedAnswer];
     });
-
-    setTimeout(() => {
-      if (selectedAnswer === QUESTIONS[activeQuestionIdex].answers[0]) {
-        setAnswerState('correct');
-      } else {
-        setAnswerState('wrong');
-      }
-
-      setTimeout(() => {
-        setAnswerState('');
-      }, 2000)
-    }, 1000)
-  }, [activeQuestionIdex]);
+  }, []);
 
   const handleSkipAnswer = useCallback(() => handelSelectAnswer(null), [handelSelectAnswer]);
 
@@ -47,10 +33,7 @@ export default function Quiz() {
       <div id="question">
         <Question
           key={activeQuestionIdex}
-          questionText={QUESTIONS[activeQuestionIdex].text}
-          answers={QUESTIONS[activeQuestionIdex].answers}
-          answerState={answerState}
-          selectedAnswer={userAnswers[userAnswers.length - 1]}
+          index={activeQuestionIdex}
           onSelectAnswer={handelSelectAnswer}
           onSkipAnswer={handleSkipAnswer}
         />
