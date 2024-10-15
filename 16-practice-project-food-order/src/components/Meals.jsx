@@ -7,9 +7,8 @@ export default function Meals() {
   useEffect(()=>{
     async function fetchMeals() {
       const response = await fetch('http://localhost:3000/meals');
-      console.log(response);
       if (!response.ok) {
-   
+        throw new Error('Failed to fetch meals');
       }
       const meals = await response.json();
       setLoadedMeals(meals);
