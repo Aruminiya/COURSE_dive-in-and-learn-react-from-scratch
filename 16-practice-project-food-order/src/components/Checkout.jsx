@@ -14,12 +14,29 @@ export default function Checkout() {
     return total + item.price * item.quantity;
   }, 0);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    console.log(data);
-    hideCheckout();
+    const customerData = Object.fromEntries(formData);
+    console.log(customerData);
+    try {
+      const data = await fetch('http://localhost:3000/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          order: {
+            items: items,
+            customer: customerData,
+          },
+        }),
+      });
+      console.log(data);
+      hideCheckout();
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   return (
@@ -28,12 +45,12 @@ export default function Checkout() {
         <h2>Checkout</h2>
         <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>
 
-        <Input label="Full Name" id="full-name" type="text" />
-        <Input label="E-Mail Address" id="email" type="email" />
-        <Input label="Street" id="street" type="text" />
+        <Input label="Full Name" id="full-name" name="name" type="text" />
+        <Input label="E-Mail Address" id="email" name="email" type="email" />
+        <Input label="Street" id="street" name="street" type="text" />
         <div className="control-row">
-          <Input label="Postal Code" id="postal-code" type="text" />
-          <Input label="City" id="city" type="text" />
+          <Input label="Postal Code" id="postal-code" name="postal-code" type="text" />
+          <Input label="City" id="city" name="city" type="text" />
         </div>
         
         <p className="modal-actions">

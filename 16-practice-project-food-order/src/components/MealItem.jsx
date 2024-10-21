@@ -11,7 +11,7 @@ export default function MealItem({meal}) {
 
   return (
     <li className="meal-item">
-      <atricle>
+      <article>
         <img src={`http://localhost:3000/${meal.image}`} alt={meal.name} />
         <div>
           <h3>{meal.name}</h3>
@@ -21,7 +21,7 @@ export default function MealItem({meal}) {
         <p className="meal-item-actions">
           <Button onClick={handleAddToCart}>Add to Cart</Button>
         </p>
-      </atricle>
+      </article>
     </li>
   );
 };
