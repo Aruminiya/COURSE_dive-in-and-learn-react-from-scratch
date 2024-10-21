@@ -23,7 +23,7 @@ export default function Checkout() {
   };
 
   return (
-    <Modal className="cart" open={userProgres === 'checkout'}>
+    <Modal className="cart" open={userProgres === 'checkout'} onClose={userProgres === 'checkout' ? hideCheckout : null}>
       <form onSubmit={handleSubmit}>
         <h2>Checkout</h2>
         <p>Total Amount: {currencyFormatter.format(cartTotal)}</p>

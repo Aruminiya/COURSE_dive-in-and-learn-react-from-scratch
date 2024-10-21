@@ -8,14 +8,14 @@ import CartItem from "./CartItem";
 
 export default function Cart() {
   const { items } = useContext(CartContext);
-  const { userProgres, hideCart, showCheckout, hideCheckout } = useContext(UserProgressContext);
+  const { userProgres, hideCart, showCheckout } = useContext(UserProgressContext);
 
   const cartTotal = items.reduce((total, item) => {
     return total + item.price * item.quantity;
   }, 0);
 
   return (
-    <Modal className="cart" open={userProgres === 'cart'}>
+    <Modal className="cart" open={userProgres === 'cart'} onClose={userProgres === 'cart' ? hideCart : null}>
       <>
         <h2>Your Cart</h2>
         <ul>
