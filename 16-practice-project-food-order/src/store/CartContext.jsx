@@ -3,7 +3,8 @@ import { createContext, useReducer } from "react";
 export const CartContext = createContext({
   items: [],
   addItem: (item) => {},
-  removeItem: (id) => {}
+  removeItem: (id) => {},
+  clearCart: () => {}
 });
 
 function cartReducer(state, action) {
@@ -39,6 +40,9 @@ function cartReducer(state, action) {
       }
       return {...state, items: updatedItems};
     }
+    case 'CLEAR_CART': {
+      return {...state, items: []};
+    }
   }
 }
 
@@ -48,7 +52,8 @@ export default function CartContextProvider({children}) {
   const cartContext = {
     items: cart.items,
     addItem: addItem,
-    removeItem: removeItem
+    removeItem: removeItem,
+    clearCart: clearCart
   };
   
   function addItem(item) {
@@ -57,6 +62,10 @@ export default function CartContextProvider({children}) {
 
   function removeItem(id) {
     dispatchCartAction({type: 'REMOVE_ITEM', id});
+  }
+
+  function clearCart() {
+    dispatchCartAction({type: 'CLEAR_CART'});
   }
 
   return <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>

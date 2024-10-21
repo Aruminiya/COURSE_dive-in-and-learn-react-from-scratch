@@ -15,11 +15,11 @@ export default function useHttp(url, config, initialData) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const sendRequest = useCallback(async function() {
+  const sendRequest = useCallback(async function(data) {
     setIsLoading(true);
     setError(null);
     try {
-      const resData = await sendHttpRequest(url, config);
+      const resData = await sendHttpRequest(url, {...config, body: JSON.stringify(data)});
       setData(resData);
     } catch (error) {
       setError(error.message || '发送请求失败');
