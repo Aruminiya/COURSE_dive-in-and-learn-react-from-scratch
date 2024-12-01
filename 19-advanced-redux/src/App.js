@@ -3,19 +3,21 @@ import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 import { useSelector, useDispatch } from 'react-redux';
-import { sendCartData } from './store/slices/cartSlices';
+import { sendCartData, fetchCartData } from './store/slices/cartActions';
 import Notification from './components/UI/Notification';
 
 let isInitial = true;
 
 function App() {
   const cartIsVisible = useSelector((state) => state.ui.cartIsVisible);
-  const cartItems = useSelector((state) => state.cart.items);
+  const cartItems = useSelector((state) => state.cart);
   const notification = useSelector((state) => state.ui.notification);
   const dispatch = useDispatch();
+  console.log(cartItems);
   useEffect(() => {
     if (isInitial) {
       isInitial = false;
+      dispatch(fetchCartData());
       return;
     }
     dispatch(sendCartData(cartItems));
