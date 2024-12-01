@@ -3,7 +3,7 @@ import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 import { useSelector, useDispatch } from 'react-redux';
-import { uiActions } from './store/slices/uiSlices';
+import { sendCartData } from './store/slices/cartSlices';
 import Notification from './components/UI/Notification';
 
 let isInitial = true;
@@ -18,39 +18,7 @@ function App() {
       isInitial = false;
       return;
     }
-
-    const sendCartData = async () => {
-      try {
-        dispatch(uiActions.showNotification({
-          status: 'pending',
-        title: 'Sending...',
-        message: 'Sending cart data!',
-      }));
-
-      const response = await fetch('https://course-react-from-scratch-default-rtdb.asia-southeast1.firebasedatabase.app/cartItems.json', {
-        method: 'PUT',
-        body: JSON.stringify(cartItems),
-      });
-
-      if (!response.ok) {
-        throw new Error('Sending cart data failed.');
-      }
-
-      dispatch(uiActions.showNotification({
-        status: 'success',
-        title: 'Success!',
-          message: 'Sent cart data successfully!',
-        }));
-      } catch (error) {
-        dispatch(uiActions.showNotification({
-          status: 'error',
-          title: 'Error!',
-          message: 'Sending cart data failed.',
-        }));
-      }
-    };
-
-    sendCartData();
+    dispatch(sendCartData(cartItems));
   }, [cartItems, dispatch]);
 
   return (
