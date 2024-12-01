@@ -20,7 +20,9 @@ function App() {
       dispatch(fetchCartData());
       return;
     }
-    dispatch(sendCartData(cartItems));
+    if (cartItems.changed) {
+      dispatch(sendCartData(cartItems));
+    }
   }, [cartItems, dispatch]);
 
   return (
