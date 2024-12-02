@@ -1,5 +1,10 @@
 {
-  "extends": "next/core-web-vitals",
+  "parserOptions": {
+    "babelOptions": {
+      "presets": ["next/babel"]
+    }
+  },
+  "extends": "next/core-web-vitals"
   // "rules": {
   //   "@next/next/no-img-element": "off"
   // }
