@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import LogoImg from '@/assets/logo.png';
 import classes from './main-header.module.css';
 
@@ -6,8 +7,7 @@ export default function MainHeader() {
   return (
     <header className={classes.header}>
       <Link className={classes.logo} href="/">
-        {/* next 的 圖像會儲存到 .src 的屬性下 */}
-        <img src={LogoImg.src} alt="A plate with food on it" /> 
+        <Image src={LogoImg} alt="A plate with food on it" priority/> 
         NextLevel Food
       </Link>
 
