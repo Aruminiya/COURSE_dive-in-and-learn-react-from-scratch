@@ -1,10 +1,14 @@
 import classes from "./page.module.css";
 import Image from "next/image";
 import { getMeal } from "@/lib/meals";
-
+import { notFound } from "next/navigation";
 export default async function MealDetailPage({ params }) {
   const meal = await getMeal(params.mealSlug);
-  
+
+  if (!meal) {
+    notFound(); // notFound 是一個用於處理 404 頁面導航的函數
+  }
+
   meal.instructions = meal.instructions.replace(/\n/g, '<br />');
   
   return (
