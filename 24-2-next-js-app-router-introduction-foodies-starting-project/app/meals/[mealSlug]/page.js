@@ -15,7 +15,12 @@ export default async function MealDetailPage({ params }) {
     <>
       <header className={classes.header}>
         <div className={classes.image}>
-          <Image src={meal.image} alt={params.mealSlug} fill />
+          <Image 
+            src={meal.image} 
+            alt={params.mealSlug} 
+            fill 
+            sizes="100%"
+          />
         </div>
         <div className={classes.headerText}>
           <h1>TITLE</h1>
