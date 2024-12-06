@@ -12,3 +12,7 @@ export async function getMeals() {
   // throw new Error('Failed to fetch meals');
   return db.prepare('SELECT * FROM meals').all();
 }
+
+export async function getMeal(slug) {
+  return db.prepare('SELECT * FROM meals WHERE slug = ?').get(slug);
+}
